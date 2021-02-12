@@ -20,18 +20,29 @@ const { BadRequestError } = require("../expressError");
  */
 
 router.post("/token", async function (req, res, next) {
+  console.log('************step 1*******************');
   try {
     const validator = jsonschema.validate(req.body, userAuthSchema);
     if (!validator.valid) {
+      console.log('************step 2 validator*******************');
+
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
+    console.log('************step 3 validated*******************');
 
     const { username, password } = req.body;
     const user = await User.authenticate(username, password);
+    console.log('************step 4 authenticated*******************');
+
     const token = createToken(user);
+    console.log('************step 5 token created*******************');
+
     return res.json({ token });
   } catch (err) {
+    console.log('************step 6 err created*******************');
+    console.log(err);
+
     return next(err);
   }
 });
