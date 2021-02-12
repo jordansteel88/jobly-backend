@@ -11,7 +11,8 @@ console.log('***********getDatabaseUri***********');
 
 
 const db = new Client({
-  connectionString: getDatabaseUri(),
+  connectionString: getDatabaseUri(), 
+  ssl: true
 });
 
 console.log('********before db.connect()');
